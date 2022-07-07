@@ -40,7 +40,7 @@ class _EditTodoState extends State<EditTodo> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Edit New User',
+                'Edit ToDo',
                 style: TextStyle(
                     fontSize: 20,
                     color: Colors.teal,
@@ -89,7 +89,6 @@ class _EditTodoState extends State<EditTodo> {
                           _todoDescriptionController.text.isEmpty
                               ? _validateDescription = true
                               : _validateDescription = false;
-
                         });
                         if (_validateTitle == false && _validateDescription == false) {
                           var _todo = ToDo();

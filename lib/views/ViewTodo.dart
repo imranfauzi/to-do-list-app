@@ -22,10 +22,10 @@ class _ViewTodoState extends State<ViewTodo> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Full Details",
+              "To-Do Details",
               style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  color: Colors.blueGrey,
+                  color: Colors.orangeAccent,
                   fontSize: 20),
             ),
             const SizedBox(
@@ -35,7 +35,7 @@ class _ViewTodoState extends State<ViewTodo> {
               children: [
                 const Text('Title',
                     style: TextStyle(
-                        color: Colors.teal,
+                        color: Colors.deepOrange,
                         fontSize: 16,
                         fontWeight: FontWeight.w600)),
                 Padding(
@@ -52,7 +52,7 @@ class _ViewTodoState extends State<ViewTodo> {
               children: [
                 const Text('Description',
                     style: TextStyle(
-                        color: Colors.teal,
+                        color: Colors.deepOrange,
                         fontSize: 16,
                         fontWeight: FontWeight.w600)),
                 const SizedBox(

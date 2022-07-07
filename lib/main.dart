@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:to_do_list/services/TodoService.dart';
 import 'package:to_do_list/views/AddTodo.dart';
 import 'package:to_do_list/views/EditTodo.dart';
+import 'package:to_do_list/views/ViewTodo.dart';
 
 import 'model/ToDo.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -14,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'To-Do-List',
       theme: ThemeData(
         primarySwatch: Colors.orange,
@@ -31,8 +34,7 @@ class MyToDoList extends StatefulWidget {
 }
 
 class _MyToDoListState extends State<MyToDoList> {
-
-  late List<ToDo> _todoList = <ToDo>[];
+  List<ToDo> _todoList = <ToDo>[];
   final _todoService = TodoService();
 
   getAllTodoDetails() async {
@@ -56,9 +58,8 @@ class _MyToDoListState extends State<MyToDoList> {
     super.initState();
   }
 
-
   Widget build(BuildContext context) {
-
+    print("reloaded huhu");
     return Scaffold(
       appBar: AppBar(
         title: const Text("To-Do-App"),
@@ -67,16 +68,26 @@ class _MyToDoListState extends State<MyToDoList> {
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const AddTodo()));
+                  MaterialPageRoute(builder: (context) => const AddTodo()))
+              .then((value) => {
+                if(value!=null){
+                  getAllTodoDetails()
+                }
+          });
         },
-
       ),
       body: ListView.builder(
           itemCount: _todoList.length,
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ViewTodo(todo: _todoList[index])));
+                },
                 leading: const Icon(Icons.list_alt_outlined),
                 title: Text(_todoList[index].title ?? ''),
                 subtitle: Text(_todoList[index].description ?? ''),
@@ -85,22 +96,32 @@ class _MyToDoListState extends State<MyToDoList> {
                   children: [
                     IconButton(
                         onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditTodo(
-                                      todo: _todoList[index]))).then((value) {
-                                        if(value != null) {
-                                          getAllTodoDetails();
-                                        }
+                          Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          EditTodo(todo: _todoList[index])))
+                              .then((value) {
+                            if (value != null) {
+                              getAllTodoDetails();
+                            }
                           });
                         },
-                        icon: const Icon(Icons.edit, color: Colors.orangeAccent,)),
+                        icon: const Icon(
+                          Icons.edit,
+                          color: Colors.orangeAccent,
+                        )),
                     IconButton(
-                        onPressed: () async {
-                          var result = await _todoService.DeleteTodo(_todoList[index].id);
-                          getAllTodoDetails();
+                        onPressed: (){
+                          var result =  _todoService.DeleteTodo(
+                              _todoList[index].id);
+                            getAllTodoDetails();
+                            setState((){});
                         },
-                        icon: const Icon(Icons.delete, color: Colors.red,))
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ))
                   ],
                 ),
               ),
@@ -109,4 +130,3 @@ class _MyToDoListState extends State<MyToDoList> {
     );
   }
 }
-
