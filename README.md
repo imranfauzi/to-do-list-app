@@ -25,3 +25,7 @@ This is a Flutter Project having a CRUD functions. It used SQLITE3 database usin
 For Flutter, the unit testing can be referred in their complete documentation.
 Link: https://docs.flutter.dev/cookbook/testing/unit/introduction
 
+
+Screenshot of the App
+
+![image](https://user-images.githubusercontent.com/75253696/177811446-f158a0e9-76e2-40c0-8b9f-b49095e55938.png)
