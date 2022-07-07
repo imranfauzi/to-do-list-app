@@ -84,6 +84,7 @@ class _AddTodoState extends State<AddTodo> {
                           var _todo = ToDo();
                           _todo.title = _todoTitleController.text;
                           _todo.description = _todoDescriptionController.text;
+                          _todo.isChecked = 0;
                           var result = await _todoService.StoreTodo(_todo);
                           Navigator.pop(context, result);
                         }

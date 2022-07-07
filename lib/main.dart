@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:to_do_list/services/TodoService.dart';
 import 'package:to_do_list/views/AddTodo.dart';
 import 'package:to_do_list/views/EditTodo.dart';
@@ -36,6 +37,7 @@ class MyToDoList extends StatefulWidget {
 class _MyToDoListState extends State<MyToDoList> {
   List<ToDo> _todoList = <ToDo>[];
   final _todoService = TodoService();
+  bool _checked = false;
 
   getAllTodoDetails() async {
     var todos = await _todoService.ListAllTodo();
@@ -46,9 +48,20 @@ class _MyToDoListState extends State<MyToDoList> {
         todoModel.id = todo['id'];
         todoModel.title = todo['title'];
         todoModel.description = todo['description'];
+        todoModel.isChecked = todo['isChecked'];
         _todoList.add(todoModel);
       });
     });
+  }
+
+
+  checkbox(int check){
+    if(check==0){
+      _checked = false;
+    } else {
+      _checked = true;
+    }
+    return _checked;
   }
 
   @override
@@ -80,18 +93,21 @@ class _MyToDoListState extends State<MyToDoList> {
           itemCount: _todoList.length,
           itemBuilder: (context, index) {
             return Card(
-              child: ListTile(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ViewTodo(todo: _todoList[index])));
-                },
-                leading: const Icon(Icons.list_alt_outlined),
+              child: CheckboxListTile(
+                value: checkbox(_todoList[index].isChecked!),
+                // onTap: () {
+                //   Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) =>
+                //               ViewTodo(todo: _todoList[index])));
+                // },
+
+                controlAffinity: ListTileControlAffinity.platform,
                 title: Text(_todoList[index].title ?? ''),
                 subtitle: Text(_todoList[index].description ?? ''),
-                trailing: Row(
+                activeColor: Colors.green,
+                secondary: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
@@ -124,6 +140,30 @@ class _MyToDoListState extends State<MyToDoList> {
                         ))
                   ],
                 ),
+
+                selectedTileColor: Colors.green,
+                onChanged: (check) {
+                  var _todo = ToDo();
+                  setState((){
+                    if(check == true) {
+                      _todo.id = _todoList[index].id;
+                      _todo.isChecked = 1;
+                      _todo.title = _todoList[index].title;
+                      _todo.description = _todoList[index].description;
+                      var result = _todoService.UpdateTodo(_todo);
+                      getAllTodoDetails();
+                    } else {
+                      _todo.id = _todoList[index].id;
+                      _todo.isChecked = 0;
+                      _todo.title = _todoList[index].title;
+                      _todo.description = _todoList[index].description;
+                      var result = _todoService.UpdateTodo(_todo);
+                      getAllTodoDetails();
+                    }
+                  });
+
+
+                },
               ),
             );
           }),

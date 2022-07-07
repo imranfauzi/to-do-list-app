@@ -95,6 +95,7 @@ class _EditTodoState extends State<EditTodo> {
                           _todo.id=widget.todo.id;
                           _todo.title = _todoTitleController.text;
                           _todo.description = _todoDescriptionController.text;
+                          _todo.isChecked = widget.todo.isChecked;
                           var result=await _todoService.UpdateTodo(_todo);
                           Navigator.pop(context,result);
                         }
