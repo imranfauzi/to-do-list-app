@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/services/TodoService.dart';
 import 'package:to_do_list/views/AddTodo.dart';
+
+import 'model/ToDo.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -27,7 +30,32 @@ class MyToDoList extends StatefulWidget {
 }
 
 class _MyToDoListState extends State<MyToDoList> {
+
+  late List<ToDo> _todoList = <ToDo>[];
+  final _todoService = TodoService();
+
+  getAllTodoDetails() async {
+    var todos = await _todoService.ListAllTodo();
+    _todoList = <ToDo>[];
+    todos.forEach((todo) {
+      setState(() {
+        var todoModel = ToDo();
+        todoModel.id = todo['id'];
+        todoModel.title = todo['title'];
+        todoModel.description = todo['description'];
+        _todoList.add(todoModel);
+      });
+    });
+  }
+
   @override
+  void initState() {
+    // TODO: implement initState
+    getAllTodoDetails();
+    super.initState();
+  }
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -41,6 +69,29 @@ class _MyToDoListState extends State<MyToDoList> {
         },
 
       ),
+      body: ListView.builder(
+          itemCount: _todoList.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: ListTile(
+                onTap: () {},
+                leading: const Icon(Icons.person),
+                title: Text(_todoList[index].title ?? ''),
+                subtitle: Text(_todoList[index].description ?? ''),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.edit, color: Colors.orangeAccent,)),
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.delete, color: Colors.red,))
+                  ],
+                ),
+              ),
+            );
+          }),
     );
   }
 }
