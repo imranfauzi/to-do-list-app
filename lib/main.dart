@@ -96,7 +96,10 @@ class _MyToDoListState extends State<MyToDoList> {
                         },
                         icon: const Icon(Icons.edit, color: Colors.orangeAccent,)),
                     IconButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          var result = await _todoService.DeleteTodo(_todoList[index].id);
+                          getAllTodoDetails();
+                        },
                         icon: const Icon(Icons.delete, color: Colors.red,))
                   ],
                 ),
