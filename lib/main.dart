@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:to_do_list/views/AddTodo.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'To-Do-List',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
       ),
       home: const MyToDoList(),
     );
@@ -29,7 +29,19 @@ class MyToDoList extends StatefulWidget {
 class _MyToDoListState extends State<MyToDoList> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("To-Do-App"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const AddTodo()));
+        },
+
+      ),
+    );
   }
 }
 

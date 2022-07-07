@@ -18,5 +18,28 @@ class Repository {
       return _database;
     }
   }
-  
+
+// CRUD queries-
+  insertData(table, data) async {
+    var connection = await database;
+    return await connection?.insert(table, data);
+  }
+  readData(table) async {
+    var connection = await database;
+    return await connection?.query(table);
+  }
+  readDataById(table, itemId) async {
+    var connection = await database;
+    return await connection?.query(table, where: 'id=?', whereArgs: [itemId]);
+  }
+  updateData(table, data) async {
+    var connection = await database;
+    return await connection
+        ?.update(table, data, where: 'id=?', whereArgs: [data['id']]);
+  }
+  deleteDataById(table, itemId) async {
+    var connection = await database;
+    return await connection?.rawDelete("delete from $table where id=$itemId");
+  }
+
 }

@@ -1,9 +1,9 @@
-class User{
+class ToDo{
       int? id;
       String? title;
       String? description;
 
-      userMap() {
+      todoMap() {
             var mapping = Map<String, dynamic>();
             mapping['id'] = id ?? null;
             mapping['title'] = title!;
