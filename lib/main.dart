@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list/services/TodoService.dart';
 import 'package:to_do_list/views/AddTodo.dart';
+import 'package:to_do_list/views/EditTodo.dart';
 
 import 'model/ToDo.dart';
 void main() {
@@ -83,7 +84,16 @@ class _MyToDoListState extends State<MyToDoList> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditTodo(
+                                      todo: _todoList[index]))).then((value) {
+                                        if(value != null) {
+                                          getAllTodoDetails();
+                                        }
+                          });
+                        },
                         icon: const Icon(Icons.edit, color: Colors.orangeAccent,)),
                     IconButton(
                         onPressed: () {},
