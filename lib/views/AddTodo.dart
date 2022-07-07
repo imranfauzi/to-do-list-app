@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list/model/ToDo.dart';
 
+import '../services/TodoService.dart';
+
 class AddTodo extends StatefulWidget {
   const AddTodo({Key? key}) : super(key: key);
 
@@ -14,6 +16,8 @@ class _AddTodoState extends State<AddTodo> {
 
   bool _validateTitle = false;
   bool _validateDescription = false;
+
+  var _todoService = TodoService();
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +80,13 @@ class _AddTodoState extends State<AddTodo> {
                               ? _validateDescription = true
                               : _validateDescription = false;
                         });
+                        if(_validateTitle == false && _validateDescription == false) {
+                          var _todo = ToDo();
+                          _todo.title = _todoTitleController.text;
+                          _todo.description = _todoDescriptionController.text;
+                          var result = await _todoService.StoreTodo(_todo);
+                          Navigator.pop(context, result);
+                        }
                       },
                       child: const Text('Submit')),
                   const SizedBox(

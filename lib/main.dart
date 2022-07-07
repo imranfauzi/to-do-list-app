@@ -57,6 +57,7 @@ class _MyToDoListState extends State<MyToDoList> {
 
 
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("To-Do-App"),
@@ -75,7 +76,7 @@ class _MyToDoListState extends State<MyToDoList> {
             return Card(
               child: ListTile(
                 onTap: () {},
-                leading: const Icon(Icons.person),
+                leading: const Icon(Icons.list_alt_outlined),
                 title: Text(_todoList[index].title ?? ''),
                 subtitle: Text(_todoList[index].description ?? ''),
                 trailing: Row(
